@@ -16,15 +16,15 @@ nnoremap <silent> <buffer> - :call ArchiveTasks()<cr>
 abbr -- <c-r>=Separator()<cr>
 
 " when pressing enter within a task it creates another task
-setlocal comments+=n:☐
+setlocal comments+=n:+
 
 function! ToggleComplete()
   let line = getline('.')
-  if line =~ "^ *✔"
-    s/^\( *\)✔/\1☐/
+  if line =~ "^ *\\[x\\]"
+    s/^\( *\)\[x\]/\1[ ]/
     s/ *@done.*$//
-  elseif line =~ "^ *☐"
-    s/^\( *\)☐/\1✔/
+  elseif line =~ "^ *\\[ \\]"
+    s/^\( *\)\[ \]/\1[x]/
     let text = " @done (" . strftime("%Y-%m-%d %H:%M") .")"
     exec "normal A" . text
     normal _
@@ -33,11 +33,11 @@ endfunc
 
 function! ToggleCancel()
   let line = getline('.')
-  if line =~ "^ *✘"
-    s/^\( *\)✘/\1☐/
+  if line =~ "^ *\\[-\\]"
+    s/^\( *\)\[-\]/\1[ ]/
     s/ *@cancelled.*$//
-  elseif line =~ "^ *☐"
-    s/^\( *\)☐/\1✘/
+  elseif line =~ "^ *\\[ \\]"
+    s/^\( *\)\[ \]/\1[-]/
     let text = " @cancelled (" . strftime("%Y-%m-%d %H:%M") .")"
     exec "normal A" . text
     normal _
@@ -47,9 +47,9 @@ endfunc
 function! NewTask()
   let line=getline('.')
   if line =~ "^ *$"
-    normal A☐ 
+    normal A[ ] 
   else
-    normal I☐ 
+    normal I[ ] 
   end
 endfunc
 
@@ -68,9 +68,25 @@ function! ArchiveTasks()
 
     let found=0
     let a_reg = @a
-    if search("✔", "", archive_start) != 0
+    if search("[x]", "", archive_start) != 0
         call cursor(1,1)
-        while search("✔", "", archive_start) > 0
+        while search("[x]", "", archive_start) > 0
+            if (found == 0)
+                normal "add
+            else
+                normal "Add
+            endif
+            let found = found + 1
+            call cursor(1,1)
+        endwhile
+
+        call cursor(archive_start + 1,1)
+        normal "ap
+    endif
+
+    if search("[-]", "", archive_start) != 0
+        call cursor(1,1)
+        while search("[-]", "", archive_start) > 0
             if (found == 0)
                 normal "add
             else
@@ -92,7 +108,7 @@ endfunc
 function! Separator()
     let line = getline('.')
     if line =~ "^-*$"
-      return "--- ✄ -----------------------"
+      return "-----------------------------"
     else
       return "--"
     end
