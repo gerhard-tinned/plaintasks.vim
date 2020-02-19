@@ -13,7 +13,7 @@ endif
 noremap <silent> <buffer> + :call NewTask()<cr>A
 noremap <silent> <buffer> ++ :call ToggleComplete()<cr>
 noremap <silent> <buffer> -- :call ToggleCancel()<cr>
-abbr -- <c-r>=Separator()<cr>
+abbr --- <c-r>=Separator()<cr>
 inoremap <silent> <buffer> [] <ESC>:call NewTask()<cr>A 
 
 " ALT+d toggle complete
