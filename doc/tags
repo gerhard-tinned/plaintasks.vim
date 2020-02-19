@@ -1,5 +1,4 @@
-Insert-mode	plaintasks.txt	/*Insert-mode*
-Normal-mode/Visual-mode	plaintasks.txt	/*Normal-mode\/Visual-mode*
+plaintasks	plaintasks.txt	/*plaintasks.txt*
 plaintasks-about	plaintasks.txt	/*plaintasks-about*
 plaintasks-contents	plaintasks.txt	/*plaintasks-contents*
 plaintasks-filetype	plaintasks.txt	/*plaintasks-filetype*

@@ -1,6 +1,7 @@
 " Vim syntax file
 " Language: PlainTasks
-" Maintainer: David Elentok
+" Maintainer: github.com/gerhard-tinned
+"             based on elentok/plaintasks.vim 
 " Filenames: *.TODO
 "
 if exists("b:current_syntax")

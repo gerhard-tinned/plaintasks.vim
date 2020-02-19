@@ -1,6 +1,7 @@
 "Vim filetype plugin
 " Language: PlainTasks
-" Maintainer: David Elentok
+" Maintainer: github.com/gerhard-tinned
+"             based on elentok/plaintasks.vim 
 " ArchiveTasks() added by Nik van der Ploeg
 
 " Only do this when not done yet for this buffer
@@ -8,15 +9,23 @@ if exists("b:did_ftplugin")
   finish
 endif
 
-nnoremap <silent> <buffer> + :call NewTask()<cr>A
-vnoremap <silent> <buffer> + :call NewTask()<cr>
-noremap <silent> <buffer> = :call ToggleComplete()<cr>
-noremap <silent> <buffer> <C-M> :call ToggleCancel()<cr>
-nnoremap <silent> <buffer> - :call ArchiveTasks()<cr>
+
+noremap <silent> <buffer> + :call NewTask()<cr>A
+noremap <silent> <buffer> ++ :call ToggleComplete()<cr>
+noremap <silent> <buffer> -- :call ToggleCancel()<cr>
 abbr -- <c-r>=Separator()<cr>
+inoremap <silent> <buffer> [] <ESC>:call NewTask()<cr>A 
+
+" ALT+d toggle complete
+" ALT+c toggle cancel
+noremap <silent> <buffer> ∂ :call ToggleComplete()<cr>
+noremap <silent> <buffer> ç :call ToggleCancel()<cr>
+inoremap <silent> <buffer> ∂ <ESC>:call ToggleComplete()<cr>I
+inoremap <silent> <buffer> ç <ESC>:call ToggleCancel()<cr>I
+
 
 " when pressing enter within a task it creates another task
-setlocal comments+=n:+
+"setlocal comments+=n:[ ]
 
 function! ToggleComplete()
   let line = getline('.')
@@ -47,9 +56,9 @@ endfunc
 function! NewTask()
   let line=getline('.')
   if line =~ "^ *$"
-    normal A[ ] 
+    normal A[ ]
   else
-    normal I[ ] 
+    normal I[ ]
   end
 endfunc
 
